@@ -2,8 +2,6 @@
 
 Ruby on Rails Dinosaur-Cages API
 
-Things you may want to cover:
-
 * Ruby version
 
 * System dependencies
