@@ -2,14 +2,13 @@ module Api
   module V1
     class DinosController < ApplicationController
       def index
+        #general get HTTP call
         dinos = Dino.order('species');
-
         render json: {status: 'SUCCESS', message:'Loaded dinos', data:dinos}, status: :ok
       end
 
       def show
-
-
+        #shows dino with id or species parameter
         if numeric(params[:id])
           if not Dino.exists?(params[:id])
             render json: {status: 'ERROR',
@@ -90,6 +89,7 @@ module Api
       end
 
       def destroy
+          #deletes dino and decrement cage current capacity
           dino = Dino.find(params[:id])
           cage = Cage.find(dino.cage_id)
 
@@ -118,6 +118,7 @@ module Api
         params.permit(:name, :species, :cage_id)
       end
 
+      #assigns dino type based on species
       def add_dino_type(dino)
           if ['Tyrannosaurus','Velociraptor','Spinosaurus','Megalosaurus'].include? params[:species]
             dino.dino_type = "Carnivore"
@@ -128,6 +129,7 @@ module Api
           return dino
         end
 
+      #checks for overflow
       def cage_max_capacity(cage)
         if cage.max_capacity <= cage.current_capacity
           return true
@@ -136,6 +138,7 @@ module Api
         end
       end
 
+      #logic for allowing certain dinosaur species into cages rules
       def dino_cage_compatible(dino, cage)
         if cage.cage_type == "None"
           cage.update_attribute("cage_type", dino.dino_type)
@@ -149,12 +152,15 @@ module Api
         end
       end
 
+      #determines valid parameters
       def dino_params_valid(params)
         if (not params.include?("name") or not params.include?("species") or not params.include?("cage_id"))
           return false
         end
         return true
       end
+
+      #identifies number in string form
       def numeric(input)
         return Float(input) != nil rescue false
       end
