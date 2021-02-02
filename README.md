@@ -39,38 +39,42 @@ Stegosaurus
 Ankylosaurus
 Triceratops
 
-* Deployment instructions
+Deployment instructions
 
 //User must create cage before creating dinosaur to be placed in cage//
-Create cage
+* Create cage
+
 endpoint: http://localhost:3000/api/v1/cages
+
 HTTP POST with body as:
+
 {
     "max_capacity": 3,
     "status": "ACTIVE"    
 }
 
-Create Dino
+* Create Dino
+
 endpoint: http://localhost:3000/api/v1/dinos
+
 HTTP POST with body as:
+
 {
   "name": "Richard",
   "species": "Stegosaurus",
   "cage_id": 1
 }
 
-Query specific cage/dino with id
+* Query specific cage/dino with id
 http://localhost:3000/api/v1/cages/:id
 http://localhost:3000/api/v1/dinos/:id
 ex: http://localhost:3000/api/v1/dinos/1
 
-Filter by status for cage and species for dino
+* Filter by status for cage and species for dino
 http://localhost:3000/api/v1/cages/:species
 ex: http://localhost:3000/api/v1/dinos/Stegosaurus
 ex: http://localhost:3000/api/v1/cages/ACTIVE
 
-
-* 
 
 Comments:
 RSPEC-
