@@ -3,7 +3,7 @@ class Dino < ApplicationRecord
     validates :name, presence: true
     validates :species, presence: true
     validates :dino_type, presence: true
-    validates :dino_type, presence: true
+    
 
 
 end

@@ -2,17 +2,33 @@ module Api
   module V1
     class DinosController < ApplicationController
       def index
-        dinos = Dino.order('species DESC');
+        dinos = Dino.order('species');
+
         render json: {status: 'SUCCESS', message:'Loaded dinos', data:dinos}, status: :ok
       end
 
       def show
-        dino = Dino.find(params[:id])
-        render json: {status: 'SUCCESS', message:'Loaded dinos', data:dino}, status: :ok
+
+        if numeric(params[:id])
+          dino = Dino.find(params[:id])
+          render json: {status: 'SUCCESS', message:'Loaded cage ' + params[:id].to_s, data:dino}, status: :ok
+          return
+        else
+          dino = Dino.where(status: params[:id])
+          render json: {status: 'SUCCESS', message:'Loaded dinos of status ' + params[:id].to_s, data:dino}, status: :ok
+          return
+        end
       end
 
       def create
         dino = Dino.new(dino_params)
+        #valid inputs
+        if not dino_params_valid(dino_params)
+          render json: {status: 'ERROR',
+          message:'Parameter inputs are invalid'},
+          status: :unprocessable_entity
+          return
+        end
         cageID = params[:cage_id]
 
         #if cage does not exist
@@ -20,6 +36,7 @@ module Api
           render json: {status: 'ERROR',
           message:'Cage ' + cageID.to_s + ' not created yet - please create cage'},
           status: :unprocessable_entity
+          return
         end
 
         #if cage is down
@@ -28,42 +45,50 @@ module Api
             render json: {status: 'ERROR',
             message:'Cage ' + cageID.to_s + ' is currently down - please power up cage'},
             status: :unprocessable_entity
+            return
 
         #Each dinosaur must have a valid species
         elsif not ['Tyrannosaurus','Velociraptor','Spinosaurus','Megalosaurus','Brachiosaurus', 'Stegosaurus','Ankylosaurus','Triceratops'].include? params[:species]
           render json: {status: 'ERROR',
           message:'Dino species does not exist'},
           status: :unprocessable_entity
+          return
         end
 
         add_dino_type(dino)
 
-        #cage to dino compatibility
+        #if cage at max capacity
         if cage_max_capacity(cage)
           render json: {status: 'ERROR',
-          message:'Cage at max capacity - please put dinosaur into another cage'},
+          message: 'Cage at max capacity - please put dinosaur into another cage'},
           status: :unprocessable_entity
-
+          return
+        #cage to dino compatibility
         elsif not dino_cage_compatible(dino, cage)
           render json: {status: 'ERROR',
           message:'Dino species does not match cage species'},
           status: :unprocessable_entity
+          return
 
         elsif dino.save
           cage.update_attribute("current_capacity", cage.current_capacity + 1)
           render json: {status: 'SUCCESS', message:'Saved Dino', data:dino}, status: :ok
+          return
         else
           render json: {status: 'ERROR', message:'Dino not saved',
           data:dino.errors}, status: :unprocessable_entity
+          return
         end
       end
 
       def destroy
           dino = Dino.find(params[:id])
-          cage = dino.cage_id
+          cage = Cage.find(dino.cage_id)
+
           cage.update_attribute('current_capacity', cage.current_capacity - 1)
           if cage.current_capacity == 0
             cage.update_attribute('cage_type', 'None')
+          end
           dino.destroy
           render json: {status: 'SUCCESS', message:'deleted dino', data:dino}, status: :ok
       end
@@ -72,7 +97,7 @@ module Api
         dino = Dino.find(params[:id])
         if dino.update_attributes(dino_params)
           render json: {status: 'SUCCESS', message:'updated dino', data:dino}, status: :ok
-
+          return
         else
           render json: {status: 'ERROR', message:'dino not updated',
           data:dino.errors}, status: :unprocessable_entity
@@ -109,13 +134,24 @@ module Api
           return true
         elsif dino.dino_type == "Herbivore" and cage.cage_type != "Carnivore"
           return true
-        elsif dino.dino_type == "Carnivore" and cage.cage_type == "Carnivore" && cage.dinos.first.species == dino.species
+        elsif dino.dino_type == "Carnivore" and cage.cage_type == "Carnivore" and cage.dinos.first.species == dino.species
           return true
         else
           return false
         end
       end
 
+      def dino_params_valid(params)
+        if (not params.include?("name") or not params.include?("species") or not params.include?("cage_id"))
+          return false
+        end
+        return true
+      end
+      def numeric(input)
+        return Float(input) != nil rescue false
+      end
     end
+
+
   end
 end

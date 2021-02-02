@@ -9,8 +9,6 @@
   Cage.create({
     max_capacity: 3,
     status: "ACTIVE",
-    cage_type: "None",
-
     })
 end
 1.times do
