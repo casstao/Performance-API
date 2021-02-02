@@ -18,11 +18,11 @@ module Api
             return
           else
             dino = Dino.find(params[:id])
-            render json: {status: 'SUCCESS', message:'Loaded cage ' + params[:id].to_s, data:dino}, status: :ok
+            render json: {status: 'SUCCESS', message:'Loaded dino ' + params[:id].to_s, data:dino}, status: :ok
             return
           end
         else
-          dino = Dino.where(status: params[:id])
+          dino = Dino.where(species: params[:id])
           render json: {status: 'SUCCESS', message:'Loaded dinos of status ' + params[:id].to_s, data:dino}, status: :ok
           return
         end
