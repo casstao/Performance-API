@@ -126,7 +126,22 @@ endpoint: http://localhost:3000/api/v1/cages/:id
 
 http://localhost:3000/api/v1/dinos/:id
 
+### Test dino compatibility in certain cages
 
+create a carnivore 
+
+endpoint: http://localhost:3000/api/v1/dinos
+
+HTTP POST with body as:
+```
+{
+  "name": "Henry",
+  "species": "Velociraptor",
+  "cage_id": 1
+}
+```
+
+should be invalid because carnivores cannot join a cage with herbivores
 
 
 
