@@ -42,8 +42,16 @@ Ankylosaurus
 Triceratops
 
 ## Deployment instructions
+Rules:
 
-//User must create cage before creating dinosaur to be placed in cage//
+1. User must create cage before creating dinosaur to be placed in cage
+
+2. status must be in all caps: "ACTIVE" or "DOWN"
+
+3. species must be in enumerated list and first letter capitalized: "Brachiosaurus"
+
+4. cage_id is the cage you want to put your dinosaur into when creating dinosaur
+
 ### Create cage
 
 endpoint: http://localhost:3000/api/v1/cages
@@ -79,7 +87,7 @@ http://localhost:3000/api/v1/cages/:id
 
 ex: http://localhost:3000/api/v1/cages/1
 
-
+shows desired dinosaur details
 
 http://localhost:3000/api/v1/dinos/:id
 
