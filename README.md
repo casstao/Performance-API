@@ -1,6 +1,8 @@
-# README
-
 # Ruby on Rails Dinosaur-Cages API
+
+## Setup
+
+* bundle
 
 ## Database initialization
 
