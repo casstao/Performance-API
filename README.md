@@ -2,17 +2,17 @@
 
 ## Setup
 
-* bundle
+`bundle`
 
 ## Database initialization
 
-* rake db:create db:schema:load
+ `rake db:create db:schema:load`
 
 ## How to run the test suite
 
 Start rails server:
 
-* rails s
+ `rails s`
 
 ## Requirements
 * Cages must have a maximum capacity for how many dinosaurs it can hold => "max_capacity"
@@ -147,7 +147,9 @@ should be invalid because carnivores cannot join a cage with herbivores
 
 # Comments:
 ### RSPEC-
-to run base test cases, run on console: rspec
+
+To run base test cases, run on console: `rspec`
+
 rspec cant create two class instances to thoroughly test business logic in rails 5.0+
 if I had more time, I would try to donwgrade to rails 3.0 and try implementing a different version of rspec that supports multiple instance creation for API
 
