@@ -9,10 +9,18 @@ module Api
 
       def show
 
+
         if numeric(params[:id])
-          dino = Dino.find(params[:id])
-          render json: {status: 'SUCCESS', message:'Loaded cage ' + params[:id].to_s, data:dino}, status: :ok
-          return
+          if not Dino.exists?(params[:id])
+            render json: {status: 'ERROR',
+            message:'Dino ID does not exist'},
+            status: :unprocessable_entity
+            return
+          else
+            dino = Dino.find(params[:id])
+            render json: {status: 'SUCCESS', message:'Loaded cage ' + params[:id].to_s, data:dino}, status: :ok
+            return
+          end
         else
           dino = Dino.where(status: params[:id])
           render json: {status: 'SUCCESS', message:'Loaded dinos of status ' + params[:id].to_s, data:dino}, status: :ok

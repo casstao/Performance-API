@@ -8,10 +8,17 @@ module Api
 
       def show
         if numeric(params[:id])
-          cage = Cage.find(params[:id])
-          render json: {status: 'SUCCESS', message:'Loaded Cage ' + params[:id], data:cage.dinos},
-          status: :ok
-          return
+          if not Cage.exists?(params[:id])
+            render json: {status: 'ERROR',
+            message:'Cage ID does not exist'},
+            status: :unprocessable_entity
+            return
+          else
+            cage = Cage.find(params[:id])
+            render json: {status: 'SUCCESS', message:'Loaded Cage ' + params[:id], data:cage.dinos},
+            status: :ok
+            return
+          end
         else
           cage = Cage.where(status: params[:id])
           render json: {status: 'SUCCESS', message:'Loaded cages of status ' + params[:id].to_s, data:cage}, status: :ok
