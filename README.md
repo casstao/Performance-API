@@ -48,26 +48,36 @@ endpoint: http://localhost:3000/api/v1/cages
 
 HTTP POST with body as:
 
+```
 {
     "max_capacity": 3,
-    "status": "ACTIVE"    
+    "status": "ACTIVE"
 }
+
+```
 
 ### Create Dino
 
 endpoint: http://localhost:3000/api/v1/dinos
 
 HTTP POST with body as:
-
+```
 {
   "name": "Richard",
   "species": "Stegosaurus",
   "cage_id": 1
 }
+```
 
 ### Query specific cage/dino with id
 
+shows all dinosaurs in the respective cage
+
 http://localhost:3000/api/v1/cages/:id
+
+ex: http://localhost:3000/api/v1/cages/1
+
+
 
 http://localhost:3000/api/v1/dinos/:id
 
@@ -76,11 +86,38 @@ ex: http://localhost:3000/api/v1/dinos/1
 
 ### Filter by status for cage and species for dino
 
-http://localhost:3000/api/v1/cages/:species
+http://localhost:3000/api/v1/cages/:status
+
+ex: http://localhost:3000/api/v1/cages/ACTIVE
+
+http://localhost:3000/api/v1/dinos/:species
 
 ex: http://localhost:3000/api/v1/dinos/Stegosaurus
 
-ex: http://localhost:3000/api/v1/cages/ACTIVE
+
+### Update power status
+
+endpoint: http://localhost:3000/api/v1/cages/:id
+
+HTTP PUT with body as:
+
+```
+{
+    "status": "DOWN"
+}
+
+```
+
+### Delete dinos/cages
+
+HTTP DELETE 
+
+endpoint: http://localhost:3000/api/v1/cages/:id
+
+http://localhost:3000/api/v1/dinos/:id
+
+
+
 
 
 # Comments:
@@ -93,4 +130,7 @@ if I had more time, I would try to donwgrade to rails 3.0 and try implementing a
 If i had more time, I would implement an edge case where deleting a cage would delete all the dinos in them
 Currently, the application handles most edge cases i.e. invalid inputs, placing the wrong species into a cage, limit on cage capacity.
 Each HTTP response has a status and a message along with the data if the status is a SUCCESS
+
+### Takeaways-
+If my application were to be ran in a concurrent environment, load balancers and an SQL database could be integrated. Currently it is using SQLlite. Hosting the API on a cloud server for constant access would also be needed.
 
