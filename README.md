@@ -156,10 +156,9 @@ To run base test cases, run on console: `rspec`
 rspec cant create two class instances to thoroughly test business logic in rails 5.0+
 if I had more time, I would try to donwgrade to rails 3.0 and try implementing a different version of rspec that supports multiple instance creation for API
 
-### Functions-
-If i had more time, I would implement an edge case where deleting a cage would delete all the dinos in them
-Currently, the application handles most edge cases i.e. invalid inputs, placing the wrong species into a cage, limit on cage capacity.
-Each HTTP response has a status and a message along with the data if the status is a SUCCESS
+### Future add-ons-
+If i had more time, I would implement an edge case where deleting a cage would delete all the dinos in them.
+Currently, the application handles most edge cases i.e. invalid inputs, placing the wrong species into a cage, limit on cage capacity. Some cool add-ons are auth0 authentication protocol to verify the user and an encrypted hashkey implementation for cage/dinosaur IDs. Each SUCCESS/ERROR HTTP return may also be logged onto a file using a singleton pattern design.
 
 ### Takeaways-
 If my application were to be ran in a concurrent environment, load balancers and an SQL database could be integrated. Currently it is using SQLlite. Hosting the API on a cloud server for constant access would also be needed.
