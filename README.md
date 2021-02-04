@@ -146,6 +146,9 @@ should be invalid because carnivores cannot join a cage with herbivores
 
 
 # Comments:
+### Assumptions-
+
+I did not include extensive user input type/error checking for cage/dino fields API requests because I am assuming this API would function after recieving data from radio button/dropdown menu user inputs when they select the different options for creating the cages/dinosaurs from the front-end webpage. If that is the case, the Webapp should be sending proper API calls without the need to deal with user type-check. However, I have included most basic type checking including misspelled species, missing arguments, and invalid cage_id.
 ### RSPEC-
 
 To run base test cases, run on console: `rspec`
@@ -160,4 +163,6 @@ Each HTTP response has a status and a message along with the data if the status 
 
 ### Takeaways-
 If my application were to be ran in a concurrent environment, load balancers and an SQL database could be integrated. Currently it is using SQLlite. Hosting the API on a cloud server for constant access would also be needed.
+
+
 
